@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transaction Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f4;
+            padding: 40px;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+            .field label {
+                font-weight: 600;
+            }
+
+            .field div {
+                margin-top: 5px;
+                background: #f1f1f1;
+                padding: 10px;
+                border-radius: 6px;
+            }
+
+        .back {
+            margin-top: 30px;
+            display: block;
+            color: #1a73e8;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Transaction Details</h2>
+
+        <div class="field">
+            <label>Transaction ID</label>
+            <div id="txid">Loading...</div>
+        </div>
+
+        <div class="field">
+            <label>Status</label>
+            <div>Confirmed</div>
+        </div>
+
+        <div class="field">
+            <label>Amount</label>
+            <div>0.54729340 BTC</div>
+        </div>
+
+        <div class="field">
+            <label>From</label>
+            <div>1A9tX4ZQj...3RBf</div>
+        </div>
+
+        <div class="field">
+            <label>To</label>
+            <div>bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8</div>
+        </div>
+
+        <a href="dashboard.html" class="back">&larr; Back to Dashboard</a>
+    </div>
+
+    <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const txid = urlParams.get('txid');
+    document.getElementById('txid').textContent = txid || 'Unavailable';
+    </script>
+</body>
+</html>

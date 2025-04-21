@@ -1,0 +1,4 @@
+﻿/btc-wallet-sim/
+│
+├── index.html         ← Login Page (the first page)
+├── dashboard.html     ← This new dashboard you're building

