@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login | LocalBitcoins.com Wallet</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
@@ -49,8 +49,16 @@
   <script>
     function handleLogin(event) {
       event.preventDefault();
-      alert('Login functionality is not implemented.');
-      // Here you would redirect or validate login
+      // Fake validation (you can improve it later)
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (email && password) {
+        // Redirect to your dashboard page
+        window.location.href = "dashboard.html"; // <-- change this to your dashboard file name if different
+      } else {
+        alert("Please enter a valid email and password.");
+      }
     }
   </script>
 </body>
