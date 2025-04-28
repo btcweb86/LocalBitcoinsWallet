@@ -45,4 +45,21 @@
     </p>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+  
+  <script>
+  function handleLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (email && password) {
+      window.location.href = "dashboard.html"; // redirect after "login"
+    } else {
+      alert("Please fill in both fields.");
+    }
+  }
+  </script>
+
+</body>
+</html>
