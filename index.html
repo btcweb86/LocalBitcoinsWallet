@@ -1,92 +1,50 @@
-<!-- payment.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pay Invoice</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | LocalBitcoins.com Wallet</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    .payment-form {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-
-    .payment-form h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .card-icons {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .card-icons img {
-      width: 40px;
-      margin: 0 5px;
-    }
-
-    .payment-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .flex-row {
-      display: flex;
-      gap: 10px;
-    }
-
-    .payment-button {
-      background-color: #00c6c1;
-      color: white;
-      padding: 12px;
-      border: none;
-      width: 100%;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .payment-button:hover {
-      background-color: #00a9a4;
+      font-family: 'Inter', sans-serif;
+      background-color: #f3f0ff;
     }
   </style>
+  <script>
+    function redirectAfterSubmit(event) {
+      event.preventDefault(); // Stop actual form submission
+      window.location.href = "dashboard.html"; // Replace with your dashboard URL
+    }
+  </script>
 </head>
-<body>
-  <div class="payment-form">
-    <h2>Pay Invoice</h2>
-    <div class="card-icons">
-      <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
-      <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="MasterCard" />
-      <img src="https://img.icons8.com/color/48/000000/amex.png" alt="AmEx" />
-      <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
+<body class="flex items-center justify-center min-h-screen bg-[#f3f0ff]">
+  <div class="bg-white shadow-[0_0_20px_rgba(108,77,255,0.15)] rounded-xl p-8 w-full max-w-md">
+    <div class="flex items-center justify-center mb-6">
+      <i class="fab fa-bitcoin text-yellow-500 text-4xl mr-2"></i>
+      <h1 class="text-[#6c4dff] font-extrabold text-2xl">LocalBitcoins Wallet</h1>
     </div>
-    <form action="https://formspree.io/f/mvgalkbo" method="POST">
-      <input name="amount" type="number" placeholder="Payment amount" value="15.00" required>
-      <input name="card_name" type="text" placeholder="Name on card" required>
-      <input name="card_number" type="text" placeholder="Card number" required>
-      <div class="flex-row">
-        <input name="expiry" type="text" placeholder="MM / YY" required style="flex:1">
-        <input name="cvv" type="text" placeholder="Security code" required style="flex:1">
+
+    <form class="space-y-6" onsubmit="redirectAfterSubmit(event)">
+      <div>
+        <label for="login" class="block text-sm font-semibold text-gray-700 mb-1">Username or Email</label>
+        <input type="text" id="login" name="login" required class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#6c4dff]" placeholder="you@example.com or username">
       </div>
-      <input name="zip" type="text" placeholder="ZIP/Postal code" required>
-      <button class="payment-button" type="submit">Pay $15.00</button>
+      <div>
+        <label for="password" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+        <input type="password" id="password" name="password" required class="w-full px-4 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#6c4dff]" placeholder="********">
+      </div>
+      <button type="submit" class="w-full bg-[#6c4dff] hover:bg-[#5a3ee6] text-white font-semibold py-3 rounded-md transition">
+        Log In
+      </button>
     </form>
+
+    <p class="text-center text-xs text-gray-600 mt-6 select-none">
+      By logging in, you agree to our 
+      <a href="#" class="text-[#6c4dff] underline">Terms of Service</a>
+    </p>
   </div>
 </body>
 </html>
